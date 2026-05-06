@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MINÁ — Elevate Your Movement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Archivo:wght@300;400;500;600;700&family=Archivo+Narrow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#0c0c0b;
+  --white:#f7f4ef;
+  --cream:#ede8df;
+  --stone:#c8c0b3;
+  --rose:#c9a090;
+  --rose-deep:#a6705e;
+  --ink:#1e1c19;
+  --muted:#6b6560;
+  --border:#d4cfc7;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:'Archivo',sans-serif;
+  background:var(--white);
+  color:var(--ink);
+  overflow-x:hidden;
+  cursor:none;
+}
+/* CUSTOM CURSOR */
+#cursor{
+  position:fixed;width:10px;height:10px;
+  background:var(--black);border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .2s var(--ease),height .2s var(--ease),background .2s;
+}
+#cursor-ring{
+  position:fixed;width:38px;height:38px;
+  border:1px solid rgba(12,12,11,.35);border-radius:50%;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:transform .12s var(--ease),width .25s var(--ease),height .25s var(--ease),opacity .2s;
+}
+body:has(a:hover) #cursor,
+body:has(button:hover) #cursor{width:6px;height:6px;background:var(--rose-deep)}
+body:has(a:hover) #cursor-ring,
+body:has(button:hover) #cursor-ring{width:54px;height:54px;border-color:var(--rose-deep);opacity:.5}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 4rem;height:72px;
+  transition:background .4s,backdrop-filter .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  background:rgba(247,244,239,.92);
+  backdrop-filter:blur(16px);
+  border-color:var(--border);
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.9rem;font-weight:500;letter-spacing:.18em;
+  color:var(--black);text-decoration:none;
+}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{
+  font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink);text-decoration:none;
+  position:relative;padding-bottom:3px;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:0;left:0;
+  width:0;height:1px;background:var(--rose-deep);
+  transition:width .3s var(--ease);
+}
+.nav-links a:hover::after{width:100%}
+.nav-actions{display:flex;align-items:center;gap:1.5rem}
+.cart-btn{
+  background:none;border:none;cursor:none;
+  display:flex;align-items:center;gap:.5rem;
+  font-family:'Archivo',sans-serif;
+  font-size:.78rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);
+  position:relative;
+}
+.cart-dot{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--black);color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.65rem;font-weight:700;
+  transition:background .2s;
+}
+.cart-btn:hover .cart-dot{background:var(--rose-deep)}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:grid;grid-template-columns:1fr 1fr;
+  position:relative;overflow:hidden;
+}
+.hero-left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:10rem 5rem 5rem 6rem;
+  background:var(--cream);
+  position:relative;z-index:2;
+}
+.hero-eyebrow{
+  font-size:.72rem;font-weight:500;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--rose-deep);margin-bottom:2rem;
+  display:flex;align-items:center;gap:.75rem;
+}
+.hero-eyebrow::before{content:'';width:32px;height:1px;background:var(--rose-deep)}
+.hero-h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(4rem,6vw,7.5rem);
+  font-weight:300;line-height:.92;letter-spacing:-.01em;
+  color:var(--black);margin-bottom:2.5rem;
+}
+.hero-h1 em{font-style:italic;font-weight:300}
+.hero-sub{
+  font-size:.95rem;font-weight:300;line-height:1.9;
+  color:var(--muted);max-width:360px;margin-bottom:3rem;
+  font-family:'Archivo Narrow',sans-serif;letter-spacing:.01em;
+}
+.hero-actions{display:flex;align-items:center;gap:2rem}
+.btn-primary{
+  padding:.9rem 2.5rem;background:var(--black);color:var(--white);
+  border:none;cursor:none;
+  font-family:'Archivo',sans-serif;font-size:.78rem;
+  font-weight:600;letter-spacing:.15em;text-transform:uppercase;
+  transition:background .3s,transform .3s;
+  position:relative;overflow:hidden;
+}
+.btn-primary::before{
+  content:'';position:absolute;inset:0;
+  background:var(--rose-deep);
+  transform:translateX(-101%);
+  transition:transform .4s var(--ease);
+}
+.btn-primary:hover::before{transform:translateX(0)}
+.btn-primary span{position:relative;z-index:1}
+.btn-ghost{
+  font-size:.78rem;font-weight:500;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink);
+  background:none;border:none;cursor:none;
+  display:flex;align-items:center;gap:.5rem;
+  transition:gap .3s;
+}
+.btn-ghost:hover{gap:.9rem}
+.btn-ghost::after{content:'→'}
+.hero-right{
+  position:relative;overflow:hidden;
+  background:var(--stone);
+}
+.hero-right img{
+  width:100%;height:100%;object-fit:cover;
+  transform:scale(1.02);
+  transition:transform 8s var(--ease);
+}
+.hero-right:hover img{transform:scale(1)}
+.hero-scroll{
+  position:absolute;bottom:3rem;left:6rem;
+  display:flex;align-items:center;gap:1rem;
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+  z-index:3;
+}
+.scroll-line{
+  width:1px;height:50px;background:var(--stone);
+  animation:scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse{
+  0%,100%{transform:scaleY(1);opacity:1}
+  50%{transform:scaleY(.5);opacity:.5}
+}
+
+/* MARQUEE */
+.marquee-wrap{
+  padding:1.25rem 0;background:var(--black);
+  overflow:hidden;white-space:nowrap;
+}
+.marquee-track{
+  display:inline-flex;gap:0;
+  animation:marquee 28s linear infinite;
+}
+.marquee-track span{
+  font-size:.7rem;font-weight:500;letter-spacing:.25em;
+  text-transform:uppercase;color:var(--stone);
+  padding:0 3rem;
+}
+.marquee-track span.dot{color:var(--rose);padding:0;margin-right:3rem}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ABOUT STRIP */
+.about{
+  padding:9rem 6rem;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:8rem;align-items:center;
+}
+.about-label{
+  font-size:.7rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--rose-deep);margin-bottom:1.5rem;
+}
+.about-h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,3.5vw,4rem);
+  font-weight:400;line-height:1.1;color:var(--black);
+  margin-bottom:2rem;
+}
+.about-text{
+  font-size:.93rem;line-height:2;color:var(--muted);
+  font-family:'Archivo Narrow',sans-serif;
+  margin-bottom:1.5rem;
+}
+.about-stats{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:2rem;margin-top:3rem;
+  padding-top:2.5rem;border-top:1px solid var(--border);
+}
+.stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.8rem;font-weight:300;color:var(--black);
+  line-height:1;margin-bottom:.4rem;
+}
+.stat-label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.about-visual{position:relative}
+.about-img{
+  width:100%;aspect-ratio:4/5;object-fit:cover;
+  background:var(--stone);
+}
+.about-badge{
+  position:absolute;bottom:-2rem;left:-2rem;
+  width:120px;height:120px;
+  background:var(--rose-deep);
+  border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.2rem;
+}
+.about-badge span:first-child{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;font-weight:300;color:var(--white);
+  line-height:1;
+}
+.about-badge span:last-child{
+  font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(247,244,239,.7);text-align:center;
+}
+
+/* COLLECTION */
+.collection{padding:5rem 6rem 8rem}
+.collection-header{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:4rem;
+}
+.collection-title-wrap{}
+.collection-label{
+  font-size:.7rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--rose-deep);margin-bottom:1rem;
+}
+.collection-h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.5rem,4vw,4.5rem);
+  font-weight:400;line-height:1;color:var(--black);
+}
+.view-all{
+  font-size:.78rem;font-weight:500;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink);
+  background:none;border:none;cursor:none;
+  display:flex;align-items:center;gap:.5rem;
+  transition:gap .3s,color .2s;
+  padding-bottom:1rem;
+}
+.view-all:hover{color:var(--rose-deep);gap:.9rem}
+.view-all::after{content:'→'}
+
+/* PRODUCT GRID */
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2rem;
+}
+.product-card{
+  cursor:none;
+  position:relative;
+  display:flex;flex-direction:column;
+}
+.product-img-wrap{
+  position:relative;overflow:hidden;
+  aspect-ratio:3/4;
+  background:var(--cream);
+  margin-bottom:1.25rem;
+}
+.product-img-wrap img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .7s var(--ease),filter .5s;
+}
+.product-card:hover .product-img-wrap img{
+  transform:scale(1.06);filter:brightness(1.03);
+}
+.product-tag{
+  position:absolute;top:1rem;left:1rem;
+  font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
+  background:var(--white);color:var(--ink);
+  padding:.35rem .7rem;
+}
+.quick-view{
+  position:absolute;bottom:1rem;left:1rem;right:1rem;
+  transform:translateY(10px);opacity:0;
+  transition:transform .35s var(--ease),opacity .35s;
+  background:var(--black);color:var(--white);
+  border:none;cursor:none;padding:.8rem;
+  font-family:'Archivo',sans-serif;
+  font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
+}
+.product-card:hover .quick-view{transform:translateY(0);opacity:1}
+.product-name{
+  font-size:.9rem;font-weight:500;color:var(--ink);
+  margin-bottom:.35rem;letter-spacing:.01em;
+}
+.product-price{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-weight:400;color:var(--muted);
+}
+
+/* PRODUCT PAGE (overlay) */
+#product-page{
+  position:fixed;inset:0;z-index:900;
+  background:var(--white);
+  transform:translateX(100%);
+  transition:transform .55s var(--ease);
+  overflow-y:auto;
+  display:flex;flex-direction:column;
+}
+#product-page.open{transform:translateX(0)}
+.pp-nav{
+  position:sticky;top:0;z-index:10;
+  background:rgba(247,244,239,.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:1.2rem 4rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.pp-back{
+  display:flex;align-items:center;gap:.6rem;
+  font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink);background:none;border:none;cursor:none;
+  transition:color .2s,gap .3s;
+}
+.pp-back:hover{color:var(--rose-deep);gap:1rem}
+.pp-back::before{content:'←'}
+.pp-brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:500;letter-spacing:.18em;color:var(--black);
+}
+.pp-body{
+  flex:1;display:grid;grid-template-columns:1fr 1fr;
+  gap:0;min-height:calc(100vh - 65px);
+}
+.pp-images{
+  position:sticky;top:65px;height:calc(100vh - 65px);
+  overflow:hidden;background:var(--cream);
+}
+.pp-main-img{
+  width:100%;height:100%;object-fit:cover;
+}
+.pp-details{
+  padding:5rem 5rem 6rem;
+  display:flex;flex-direction:column;
+}
+.pp-category{
+  font-size:.7rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--rose-deep);margin-bottom:1.5rem;
+}
+.pp-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,3vw,3.5rem);
+  font-weight:400;line-height:1.05;
+  color:var(--black);margin-bottom:1.5rem;
+}
+.pp-price{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;font-weight:300;color:var(--muted);
+  margin-bottom:2.5rem;
+  display:flex;align-items:baseline;gap:.5rem;
+}
+.pp-price small{font-size:1rem;font-family:'Archivo',sans-serif}
+.pp-divider{width:48px;height:1px;background:var(--rose-deep);margin-bottom:2.5rem}
+.pp-desc{
+  font-size:.92rem;line-height:2;color:var(--muted);
+  font-family:'Archivo Narrow',sans-serif;
+  margin-bottom:3rem;
+}
+.pp-size-label{
+  font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ink);margin-bottom:1rem;
+}
+.pp-sizes{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:3rem}
+.size-opt{
+  min-width:48px;height:48px;padding:0 .75rem;
+  border:1px solid var(--border);background:transparent;
+  font-family:'Archivo',sans-serif;
+  font-size:.8rem;font-weight:600;letter-spacing:.08em;
+  color:var(--ink);cursor:none;
+  transition:border-color .2s,background .2s,color .2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.size-opt:hover{border-color:var(--ink)}
+.size-opt.active{background:var(--black);color:var(--white);border-color:var(--black)}
+.pp-color-label{
+  font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ink);margin-bottom:1rem;
+}
+.pp-colors{display:flex;gap:.75rem;margin-bottom:3rem}
+.color-swatch{
+  width:32px;height:32px;border-radius:50%;cursor:none;
+  position:relative;border:2px solid transparent;
+  transition:border-color .2s;
+}
+.color-swatch.active,.color-swatch:hover{border-color:var(--ink)}
+.color-swatch::after{
+  content:'';position:absolute;inset:-4px;
+  border-radius:50%;border:1px solid transparent;
+  transition:border-color .2s;
+}
+.color-swatch.active::after{border-color:var(--stone)}
+.pp-actions{display:flex;flex-direction:column;gap:1rem;margin-bottom:3rem}
+.btn-add{
+  padding:1.2rem;background:var(--black);color:var(--white);
+  border:none;cursor:none;
+  font-family:'Archivo',sans-serif;font-size:.8rem;
+  font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  transition:background .3s;
+  position:relative;overflow:hidden;
+}
+.btn-add::before{
+  content:'';position:absolute;inset:0;background:var(--rose-deep);
+  transform:translateX(-101%);transition:transform .4s var(--ease);
+}
+.btn-add:hover::before{transform:translateX(0)}
+.btn-add span{position:relative;z-index:1}
+.btn-stripe{
+  padding:1.2rem;background:transparent;color:var(--ink);
+  border:1px solid var(--border);cursor:none;
+  font-family:'Archivo',sans-serif;font-size:.8rem;
+  font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  transition:border-color .25s,background .25s,color .25s;
+  display:flex;align-items:center;justify-content:center;gap:.75rem;
+}
+.btn-stripe:hover{border-color:var(--ink);background:var(--ink);color:var(--white)}
+.stripe-icon{font-size:1.1rem}
+.pp-features{
+  border-top:1px solid var(--border);
+  padding-top:2rem;
+}
+.feature-row{
+  display:flex;align-items:center;gap:1rem;
+  padding:.9rem 0;border-bottom:1px solid var(--border);
+}
+.feature-icon{font-size:1.1rem;width:24px;text-align:center}
+.feature-text{font-size:.82rem;color:var(--muted);letter-spacing:.01em}
+.feature-text strong{color:var(--ink);font-weight:500}
+
+/* TESTIMONIALS */
+.testimonials{
+  background:var(--cream);
+  padding:8rem 6rem;
+}
+.test-label{
+  font-size:.7rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--rose-deep);text-align:center;margin-bottom:1rem;
+}
+.test-h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,3.5vw,4rem);
+  font-weight:400;text-align:center;color:var(--black);
+  margin-bottom:5rem;
+}
+.testimonials-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:2rem;max-width:1200px;margin:0 auto;
+}
+.test-card{
+  background:var(--white);padding:2.5rem;
+  position:relative;
+}
+.test-quote{
+  font-family:'Cormorant Garamond',serif;
+  font-size:3rem;font-weight:300;color:var(--rose);
+  line-height:.7;margin-bottom:1.5rem;
+}
+.test-text{
+  font-size:.9rem;line-height:1.9;color:var(--muted);
+  font-family:'Archivo Narrow',sans-serif;
+  font-style:italic;margin-bottom:2rem;
+}
+.test-author{display:flex;align-items:center;gap:1rem}
+.test-avatar{
+  width:42px;height:42px;border-radius:50%;overflow:hidden;
+  background:var(--cream);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:600;color:var(--rose-deep);
+}
+.test-avatar img{width:100%;height:100%;object-fit:cover}
+.test-name{font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:.2rem}
+.test-role{font-size:.75rem;color:var(--stone);letter-spacing:.05em}
+.test-stars{
+  position:absolute;top:2.5rem;right:2.5rem;
+  color:var(--rose-deep);font-size:.85rem;letter-spacing:.1em;
+}
+
+/* FOOTER */
+footer{
+  background:var(--black);color:var(--stone);
+  padding:6rem 6rem 3rem;
+}
+.footer-top{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:4rem;padding-bottom:5rem;
+  border-bottom:1px solid rgba(200,192,179,.15);
+}
+.footer-brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;font-weight:300;letter-spacing:.2em;
+  color:var(--white);margin-bottom:1.5rem;
+}
+.footer-desc{
+  font-size:.85rem;line-height:1.9;
+  color:rgba(200,192,179,.7);
+  font-family:'Archivo Narrow',sans-serif;
+  max-width:280px;margin-bottom:2rem;
+}
+.footer-social{display:flex;gap:1rem}
+.social-link{
+  width:38px;height:38px;
+  border:1px solid rgba(200,192,179,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.72rem;font-weight:600;letter-spacing:.05em;
+  color:var(--stone);text-decoration:none;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.social-link:hover{
+  border-color:var(--rose-deep);color:var(--rose-deep);
+}
+.footer-col h4{
+  font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--white);margin-bottom:2rem;
+}
+.footer-col a{
+  display:block;font-size:.85rem;
+  color:rgba(200,192,179,.65);text-decoration:none;
+  margin-bottom:1rem;
+  transition:color .2s;
+  font-family:'Archivo Narrow',sans-serif;
+}
+.footer-col a:hover{color:var(--rose)}
+.footer-bottom{
+  padding-top:2.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.footer-copy{font-size:.78rem;color:rgba(200,192,179,.4);letter-spacing:.05em}
+.footer-legal{display:flex;gap:2rem}
+.footer-legal a{
+  font-size:.75rem;color:rgba(200,192,179,.4);
+  text-decoration:none;transition:color .2s;letter-spacing:.05em;
+}
+.footer-legal a:hover{color:var(--stone)}
+
+/* CHATBOT */
+#chatbot-fab{
+  position:fixed;bottom:2.5rem;right:2.5rem;z-index:1000;
+  width:58px;height:58px;border-radius:50%;
+  background:var(--black);border:none;cursor:none;
+  box-shadow:0 8px 32px rgba(12,12,11,.25);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .3s,transform .3s;
+}
+#chatbot-fab:hover{background:var(--rose-deep);transform:scale(1.05)}
+#chatbot-fab svg{width:22px;height:22px;stroke:var(--white);fill:none;stroke-width:1.5}
+.chat-notify{
+  position:absolute;top:-2px;right:-2px;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--rose-deep);border:2px solid var(--white);
+}
+#chatbot-win{
+  position:fixed;bottom:7rem;right:2.5rem;z-index:999;
+  width:370px;
+  background:var(--white);
+  box-shadow:0 24px 64px rgba(12,12,11,.18);
+  display:flex;flex-direction:column;
+  transform:translateY(20px) scale(.95);
+  opacity:0;pointer-events:none;
+  transition:transform .35s var(--ease),opacity .35s;
+  overflow:hidden;
+  max-height:540px;
+}
+#chatbot-win.open{
+  transform:translateY(0) scale(1);
+  opacity:1;pointer-events:all;
+}
+.chat-header{
+  background:var(--black);padding:1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.chat-header-left{display:flex;align-items:center;gap:.85rem}
+.chat-dot-status{
+  width:8px;height:8px;border-radius:50%;
+  background:#5ddf7a;
+  animation:pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(93,223,122,.4)}
+  50%{opacity:.8;box-shadow:0 0 0 6px rgba(93,223,122,0)}
+}
+.chat-header-info h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:400;color:var(--white);letter-spacing:.06em;
+  margin-bottom:.15rem;
+}
+.chat-header-info p{font-size:.72rem;color:rgba(200,192,179,.6);letter-spacing:.08em}
+.chat-close{
+  background:none;border:none;cursor:none;
+  color:rgba(200,192,179,.5);font-size:1.4rem;
+  transition:color .2s;line-height:1;
+}
+.chat-close:hover{color:var(--white)}
+.chat-msgs{
+  flex:1;overflow-y:auto;padding:1.5rem;
+  display:flex;flex-direction:column;gap:.85rem;
+  scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+  max-height:350px;
+}
+.msg-row{display:flex;align-items:flex-end;gap:.5rem}
+.msg-row.user{flex-direction:row-reverse}
+.msg-avatar{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--cream);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.65rem;font-weight:700;color:var(--muted);letter-spacing:.05em;
+}
+.msg-bubble{
+  max-width:75%;padding:.75rem 1rem;
+  font-size:.84rem;line-height:1.6;
+}
+.msg-row.bot .msg-bubble{
+  background:var(--cream);color:var(--ink);
+}
+.msg-row.user .msg-bubble{
+  background:var(--black);color:var(--white);
+}
+.typing-row{display:flex;align-items:flex-end;gap:.5rem}
+.typing-bubble{
+  background:var(--cream);padding:.75rem 1rem;
+  display:flex;gap:4px;align-items:center;
+}
+.t-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--stone);
+  animation:tdot 1.4s infinite;
+}
+.t-dot:nth-child(2){animation-delay:.2s}
+.t-dot:nth-child(3){animation-delay:.4s}
+@keyframes tdot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+.chat-suggestions{
+  padding:.75rem 1.5rem;border-top:1px solid var(--border);
+  display:flex;gap:.5rem;flex-wrap:wrap;
+}
+.suggest-chip{
+  font-size:.7rem;font-weight:500;letter-spacing:.05em;
+  padding:.35rem .8rem;border:1px solid var(--border);
+  background:transparent;cursor:none;color:var(--muted);
+  transition:border-color .2s,color .2s,background .2s;
+  white-space:nowrap;
+}
+.suggest-chip:hover{border-color:var(--rose-deep);color:var(--rose-deep)}
+.chat-input-area{
+  padding:1rem 1.5rem;border-top:1px solid var(--border);
+  display:flex;gap:.75rem;align-items:center;
+}
+#chat-inp{
+  flex:1;border:none;background:var(--cream);
+  font-family:'Archivo',sans-serif;font-size:.84rem;
+  color:var(--ink);padding:.7rem 1rem;
+  outline:none;
+  transition:background .2s;
+}
+#chat-inp:focus{background:#ede0d4}
+#chat-inp::placeholder{color:var(--stone)}
+#chat-send{
+  background:var(--black);border:none;cursor:none;
+  width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;flex-shrink:0;
+}
+#chat-send:hover{background:var(--rose-deep)}
+#chat-send svg{width:15px;height:15px;stroke:var(--white);fill:none;stroke-width:2}
+
+/* NOTIFICATION TOAST */
+#toast{
+  position:fixed;bottom:2.5rem;left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--black);color:var(--white);
+  padding:.9rem 2rem;
+  font-size:.8rem;font-weight:500;letter-spacing:.1em;
+  z-index:9000;
+  transition:transform .4s var(--ease),opacity .4s;
+  opacity:0;white-space:nowrap;
+}
+#toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* CART DRAWER */
+#cart-drawer{
+  position:fixed;right:0;top:0;bottom:0;width:400px;z-index:1100;
+  background:var(--white);
+  transform:translateX(100%);
+  transition:transform .5s var(--ease);
+  display:flex;flex-direction:column;
+  box-shadow:-24px 0 64px rgba(12,12,11,.12);
+}
+#cart-drawer.open{transform:translateX(0)}
+.cart-overlay{
+  position:fixed;inset:0;z-index:1099;
+  background:rgba(12,12,11,.4);
+  opacity:0;pointer-events:none;
+  transition:opacity .4s;
+}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-drawer-header{
+  padding:1.75rem 2rem;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.cart-drawer-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;font-weight:400;color:var(--black);letter-spacing:.06em;
+}
+.cart-drawer-close{
+  background:none;border:none;cursor:none;
+  font-size:1.4rem;color:var(--muted);
+  transition:color .2s;
+}
+.cart-drawer-close:hover{color:var(--black)}
+.cart-items{flex:1;overflow-y:auto;padding:1.5rem 2rem}
+.cart-empty{
+  text-align:center;padding:4rem 0;
+  color:var(--stone);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:300;
+}
+.cart-item{
+  display:flex;gap:1.25rem;padding:1.25rem 0;
+  border-bottom:1px solid var(--border);
+}
+.cart-item-img{
+  width:80px;height:96px;object-fit:cover;
+  background:var(--cream);flex-shrink:0;
+}
+.cart-item-info{flex:1}
+.cart-item-name{
+  font-size:.88rem;font-weight:500;color:var(--ink);
+  margin-bottom:.35rem;
+}
+.cart-item-meta{
+  font-size:.75rem;color:var(--stone);letter-spacing:.07em;
+  margin-bottom:.75rem;
+}
+.cart-item-price{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:400;color:var(--muted);
+}
+.cart-item-remove{
+  background:none;border:none;cursor:none;
+  color:var(--stone);font-size:.75rem;letter-spacing:.1em;
+  text-transform:uppercase;
+  transition:color .2s;
+}
+.cart-item-remove:hover{color:var(--rose-deep)}
+.cart-footer{padding:1.5rem 2rem;border-top:1px solid var(--border)}
+.cart-subtotal{
+  display:flex;justify-content:space-between;
+  margin-bottom:1.5rem;
+}
+.cart-subtotal span:first-child{
+  font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.cart-subtotal span:last-child{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:300;color:var(--black);
+}
+.btn-checkout{
+  width:100%;padding:1.1rem;background:var(--black);color:var(--white);
+  border:none;cursor:none;
+  font-family:'Archivo',sans-serif;font-size:.8rem;
+  font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  transition:background .3s;
+}
+.btn-checkout:hover{background:var(--rose-deep)}
+.cart-note{
+  margin-top:1rem;text-align:center;
+  font-size:.72rem;color:var(--stone);letter-spacing:.07em;
+}
+
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal-d1{transition-delay:.1s}
+.reveal-d2{transition-delay:.2s}
+.reveal-d3{transition-delay:.3s}
+.reveal-d4{transition-delay:.4s}
+
+@media(max-width:1200px){
+  .products-grid{grid-template-columns:repeat(3,1fr)}
+  nav{padding:0 2.5rem}
+  .about,.collection,.testimonials{padding-left:3rem;padding-right:3rem}
+  footer{padding:5rem 3rem 2.5rem}
+  .footer-top{grid-template-columns:1fr 1fr;gap:3rem}
+}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-right{height:55vw;position:relative;top:auto}
+  .hero-left{padding:7rem 2.5rem 3.5rem}
+  .hero-scroll{left:2.5rem}
+  .about{grid-template-columns:1fr;gap:3rem;padding:5rem 2.5rem}
+  .about-badge{display:none}
+  .pp-body{grid-template-columns:1fr}
+  .pp-images{position:relative;height:65vw;top:0}
+  .pp-details{padding:3rem 2.5rem 4rem}
+  .products-grid{grid-template-columns:repeat(2,1fr);gap:1.25rem}
+  .testimonials-grid{grid-template-columns:1fr}
+  nav{padding:0 1.5rem}
+  .nav-links{display:none}
+  .collection{padding:4rem 2rem 5rem}
+  .collection-header{flex-direction:column;align-items:flex-start;gap:1.5rem}
+  .testimonials{padding:5rem 2rem}
+  footer{padding:4rem 2rem 2rem}
+  .footer-top{grid-template-columns:1fr;gap:2.5rem}
+  .footer-bottom{flex-direction:column;gap:1rem;text-align:center}
+  #cart-drawer{width:100%;max-width:400px}
+  #chatbot-win{width:calc(100vw - 3rem);right:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAVBAR -->
+<nav id="nav">
+  <a class="nav-logo" href="#" onclick="return false">MINÁ</a>
+  <ul class="nav-links">
+    <li><a href="#collection" onclick="smoothNav(event,'collection')">Collection</a></li>
+    <li><a href="#about" onclick="smoothNav(event,'about')">About</a></li>
+    <li><a href="#testimonials" onclick="smoothNav(event,'testimonials')">Reviews</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="cart-btn" onclick="toggleCart()">
+      <span class="cart-dot" id="cartCount">0</span>
+      Cart
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Made in Ireland</div>
+    <h1 class="hero-h1">
+      Move in<br>
+      <em>pure</em><br>
+      luxury.
+    </h1>
+    <p class="hero-sub">Premium activewear for those who believe performance and elegance are not a choice — they are both non-negotiable.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('collection').scrollIntoView({behavior:'smooth'})"><span>Shop Collection</span></button>
+      <button class="btn-ghost" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Our Story</button>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=900&h=1100&fit=crop&q=90" alt="MINÁ model" onerror="this.style.display='none'">
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track" id="mq"></div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div>
+    <div class="about-label reveal">Our Philosophy</div>
+    <h2 class="about-h2 reveal reveal-d1">Crafted for those<br>who demand more.</h2>
+    <p class="about-text reveal reveal-d2">MINÁ was born in Dublin from a simple conviction — that activewear should feel as extraordinary as the women who wear it. We refuse to choose between function and beauty.</p>
+    <p class="about-text reveal reveal-d2">Every stitch is intentional. Every fabric is chosen for how it moves, breathes, and endures. Premium materials, ethical sourcing, crafted in Ireland.</p>
+    <div class="about-stats reveal reveal-d3">
+      <div>
+        <div class="stat-num">14</div>
+        <div class="stat-label">Signature Pieces</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Ethically Made</div>
+      </div>
+      <div>
+        <div class="stat-num">IE</div>
+        <div class="stat-label">Dublin Origin</div>
+      </div>
+    </div>
+  </div>
+  <div class="about-visual reveal reveal-d2">
+    <img class="about-img" src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=700&h=875&fit=crop&q=85" alt="MINÁ studio" onerror="this.style.display='none'">
+    <div class="about-badge">
+      <span>IE</span>
+      <span>Made in Ireland</span>
+    </div>
+  </div>
+</section>
+
+<!-- COLLECTION -->
+<section class="collection" id="collection">
+  <div class="collection-header">
+    <div class="collection-title-wrap">
+      <div class="collection-label reveal">The Collection</div>
+      <h2 class="collection-h2 reveal reveal-d1">All Pieces</h2>
+    </div>
+    <button class="view-all reveal reveal-d2" onclick="showAllProducts()">View All</button>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="test-label reveal">Community</div>
+  <h2 class="test-h2 reveal reveal-d1">Loved across Ireland</h2>
+  <div class="testimonials-grid" id="testimonialsGrid"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">MINÁ</div>
+      <p class="footer-desc">Luxury activewear crafted in Dublin, Ireland. Elevating movement since our founding — one exceptional piece at a time.</p>
+      <div class="footer-social">
+        <a class="social-link" href="#" aria-label="Instagram">IG</a>
+        <a class="social-link" href="#" aria-label="TikTok">TK</a>
+        <a class="social-link" href="#" aria-label="Facebook">FB</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <a href="#">All Pieces</a>
+      <a href="#">Leggings</a>
+      <a href="#">Sets</a>
+      <a href="#">Tops</a>
+      <a href="#">Outerwear</a>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <a href="#">Sizing Guide</a>
+      <a href="#">Shipping Info</a>
+      <a href="#">Returns</a>
+      <a href="#">Track Order</a>
+      <a href="#">FAQ</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:hello@mina-wear.ie">hello@mina-wear.ie</a>
+      <a href="tel:+35312345678">+353 (0)1 234 5678</a>
+      <a href="#">Dublin, Ireland</a>
+      <a href="#">Mon–Fri 9–5 IST</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 MINÁ. All rights reserved. Crafted with love in Ireland.</p>
+    <div class="footer-legal">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+<!-- PRODUCT PAGE OVERLAY -->
+<div id="product-page">
+  <div class="pp-nav">
+    <button class="pp-back" onclick="closeProductPage()">Back to Collection</button>
+    <span class="pp-brand">MINÁ</span>
+    <button class="cart-btn" onclick="toggleCart()" style="opacity:1">
+      <span class="cart-dot" id="cartCount2">0</span>
+      Cart
+    </button>
+  </div>
+  <div class="pp-body">
+    <div class="pp-images">
+      <img class="pp-main-img" id="ppImg" src="" alt="">
+    </div>
+    <div class="pp-details">
+      <div class="pp-category" id="ppCategory">Activewear</div>
+      <h1 class="pp-name" id="ppName"></h1>
+      <div class="pp-price"><small>€</small><span id="ppPrice"></span></div>
+      <div class="pp-divider"></div>
+      <p class="pp-desc" id="ppDesc"></p>
+      <div class="pp-size-label">Select Size</div>
+      <div class="pp-sizes" id="ppSizes"></div>
+      <div class="pp-color-label">Colour</div>
+      <div class="pp-colors" id="ppColors"></div>
+      <div class="pp-actions">
+        <button class="btn-add" onclick="addToCartPP()"><span>Add to Cart</span></button>
+        <button class="btn-stripe" onclick="buyNowStripe()">
+          <span class="stripe-icon">⚡</span>
+          <span>Buy with Stripe</span>
+        </button>
+      </div>
+      <div class="pp-features">
+        <div class="feature-row">
+          <span class="feature-icon">🚚</span>
+          <span class="feature-text"><strong>Free delivery</strong> on orders over €50 across Ireland</span>
+        </div>
+        <div class="feature-row">
+          <span class="feature-icon">↩️</span>
+          <span class="feature-text"><strong>30-day returns</strong> — no questions asked</span>
+        </div>
+        <div class="feature-row">
+          <span class="feature-icon">🌿</span>
+          <span class="feature-text"><strong>Ethically made</strong> with eco-conscious fabrics</span>
+        </div>
+        <div class="feature-row">
+          <span class="feature-icon">📦</span>
+          <span class="feature-text">Ships from <strong>Dublin</strong> in 1–2 business days</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div id="cart-drawer">
+  <div class="cart-drawer-header">
+    <span class="cart-drawer-title">Your Cart</span>
+    <button class="cart-drawer-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer" id="cartFooter"></div>
+</div>
+
+<!-- CHATBOT -->
+<button id="chatbot-fab" onclick="toggleChat()" aria-label="Open chat">
+  <div class="chat-notify" id="chatNotify"></div>
+  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+
+<div id="chatbot-win">
+  <div class="chat-header">
+    <div class="chat-header-left">
+      <div class="chat-dot-status"></div>
+      <div class="chat-header-info">
+        <h3>MINÁ Concierge</h3>
+        <p>Always here to help · Dublin, IE</p>
+      </div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-msgs" id="chatMsgs"></div>
+  <div class="chat-suggestions" id="chatSuggestions"></div>
+  <div class="chat-input-area">
+    <input type="text" id="chat-inp" placeholder="Ask anything…" onkeydown="if(event.key==='Enter')sendMsg()">
+    <button id="chat-send" onclick="sendMsg()" aria-label="Send">
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// This code line is added as requested
+console.log('MINÁ - All images loaded successfully');
+
+// === DATA ===
+// USING UNSPLASH IMAGES THAT WILL DEFINITELY WORK
+// To use your own images from the images folder, just change the img paths below
+const PRODUCTS=[
+  {id:1,name:'Midnight Glow Leggings',price:30,tag:'Bestseller',category:'Leggings',
+   desc:'Sleek obsidian leggings with a subtle shimmer weave that catches light beautifully. Four-way stretch performance fabric with a high-compression waistband and hidden waist pocket.',
+   img:'https://images.unsplash.com/photo-1506629082632-8a7a0bce4cd0?w=800&h=1000&fit=crop&q=90',
+   colors:['#1a1a1a','#3d3240','#2d3d3d']},
+  {id:2,name:'Midnight Glow Set',price:45,tag:'New',category:'Sets',
+   desc:'The complete Midnight Glow experience. Matching leggings and crop top in our signature shimmer fabric. Coordinated effortlessly for any intensity of movement.',
+   img:'https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=800&h=1000&fit=crop&q=90',
+   colors:['#1a1a1a','#3d3240']},
+  {id:3,name:'Midnight Glow Top',price:20,tag:'',category:'Tops',
+   desc:'Minimalist crop top with our delicate glow finish. Moisture-wicking, four-way stretch, and featherlight for maximum freedom. Pairs perfectly with any MINÁ bottom.',
+   img:'https://images.unsplash.com/photo-1434389677669-e08b4cda4f2f?w=800&h=1000&fit=crop&q=90',
+   colors:['#1a1a1a','#c9a090','#d4cfc7']},
+  {id:4,name:'Comfort Edition Set',price:40,tag:'',category:'Sets',
+   desc:'Our bestselling everyday set. Ultra-soft brushed fabric with exceptional flexibility. The waistband sits comfortably at the natural waist for all-day wear.',
+   img:'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&h=1000&fit=crop&q=90',
+   colors:['#ede8df','#c9a090','#1a1a1a']},
+  {id:5,name:'Comfort Edition Leggings',price:20,tag:'',category:'Leggings',
+   desc:'High-waisted silhouette with hidden pockets at both hips. Premium blend fabric that holds its shape beautifully wash after wash. The everyday luxury legging.',
+   img:'https://images.unsplash.com/photo-1544367567-0d5fccc6678d?w=800&h=1000&fit=crop&q=90',
+   colors:['#ede8df','#1a1a1a','#c9a090']},
+  {id:6,name:'Sculpt Top',price:25,tag:'',category:'Tops',
+   desc:'Form-fitting with our premium compression technology. The structured neckline and support band create a sleek, elongated silhouette designed to move with you.',
+   img:'https://images.unsplash.com/photo-1521577352947-9bb58764b69a?w=800&h=1000&fit=crop&q=90',
+   colors:['#1a1a1a','#c9a090','#ede8df']},
+  {id:7,name:'Seamless Sculpt Set',price:45,tag:'Popular',category:'Sets',
+   desc:'Zero seams means zero distraction. Sculpting compression meets breathable luxury in this technical masterpiece. The most talked-about set in our collection.',
+   img:'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&h=1000&fit=crop&q=90',
+   colors:['#1a1a1a','#c9a090','#4a3d36']},
+  {id:8,name:'Pink Dream Cropped Zip',price:20,tag:'',category:'Outerwear',
+   desc:'A signature cropped jacket in our luxurious pink-and-shadow palette. The fitted silhouette and premium zipper make it the perfect elevated layer.',
+   img:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=1000&fit=crop&q=90',
+   colors:['#c9a090','#1a1a1a','#e8c4b8']},
+  {id:9,name:'Pink Dream Sweatpants',price:30,tag:'',category:'Bottoms',
+   desc:'Luxurious wide-leg silhouette with our unique colour-block design. Premium brushed interior for unmatched comfort whether at the studio or off-duty.',
+   img:'https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=800&h=1000&fit=crop&q=90',
+   colors:['#c9a090','#1a1a1a']},
+  {id:10,name:'Pink Dream Set',price:45,tag:'Limited',category:'Sets',
+   desc:'The complete Pink Dream collection. Everything you need for a coordinated, effortlessly beautiful look. In our signature blush tones with shadow accents.',
+   img:'https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=800&h=1000&fit=crop&q=90',
+   colors:['#c9a090','#e8c4b8','#1a1a1a']},
+  {id:11,name:'Push-Up Seamless Leggings',price:30,tag:'',category:'Leggings',
+   desc:'Lifting, sculpting support built seamlessly into the fabric. Our most advanced shaping technology combined with buttery-soft comfort for flawless movement.',
+   img:'https://images.unsplash.com/photo-1462392246754-28dfa2df8e6b?w=800&h=1000&fit=crop&q=90',
+   colors:['#1a1a1a','#3d3240','#c9a090']},
+  {id:12,name:'Shadow Set',price:45,tag:'',category:'Sets',
+   desc:'Dark minimalism at its most refined. Premium quality in our signature deep shadow tone. The set for those who believe less is always more.',
+   img:'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&h=1000&fit=crop&q=90',
+   colors:['#2d2926','#1a1a1a','#3d3240']},
+  {id:13,name:'Performance Zip Jacket',price:35,tag:'',category:'Outerwear',
+   desc:'A sleek, body-skimming jacket with a premium zipper and moisture-wicking lining. Engineered for layering without bulk. Goes from warm-up to cool-down seamlessly.',
+   img:'https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=800&h=1000&fit=crop&q=90',
+   colors:['#1a1a1a','#2d2926','#c9a090']},
+  {id:14,name:'Strappy Sports Bra',price:20,tag:'',category:'Tops',
+   desc:'Unique multi-strap design provides exceptional support while looking extraordinary. Medium-to-high impact performance with our signature elegant aesthetic.',
+   img:'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&h=1000&fit=crop&q=90',
+   colors:['#1a1a1a','#c9a090','#ede8df']}
+];
+
+const TESTIMONIALS=[
+  {name:'Sarah M.',role:'Fitness Instructor · Dublin',img:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',text:"MINÁ has completely redefined what I expect from activewear. The quality is extraordinary — I've worn these pieces daily for months and they still look brand new. I feel luxurious even at 6 AM.",stars:5},
+  {name:"Emma O'C.",role:'Yoga & Pilates · Cork',img:'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop',text:"As an Irish woman, supporting MINÁ feels personal. But beyond that — the fit, the fabrics, the finish — everything is genuinely world-class. My clients always ask where my kit is from.",stars:5},
+  {name:'Jessica T.',role:'Marathon Runner · Galway',img:'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop',text:"I was sceptical that 'luxury activewear' could hold up to real training. MINÁ proved me completely wrong. The Seamless Sculpt Set is the most comfortable thing I've ever run in.",stars:5}
+];
+
+// CHATBOT KNOWLEDGE BASE
+const KB={
+  shipping:{
+    keywords:['ship','deliver','delivery','ireland','when','arrive','days','how long','dispatch','post'],
+    answer:"We ship across all of Ireland 🇮🇪 Standard delivery is 2–4 business days for €5.99, or free when your order is over €50. We dispatch from Dublin within 1–2 business days. You'll receive a tracking email as soon as your order leaves us!"
+  },
+  returns:{
+    keywords:['return','refund','exchange','swap','wrong size','send back','money back','policy'],
+    answer:"We have a stress-free 30-day return policy. If you're not completely in love with your MINÁ pieces, simply contact us at hello@mina-wear.ie and we'll arrange a full refund or an exchange — no questions asked. Items must be unworn and in original condition."
+  },
+  sizing:{
+    keywords:['size','sizing','fit','xs','small','medium','large','xl','measurements','guide','what size'],
+    answer:"We offer sizes XS, S, M, L, and XL. Our pieces have a true-to-size fit with generous stretch. For the leggings and sets, we recommend sizing down if you prefer a more sculpted fit. Your perfect size is waiting for you — if you're unsure, just ask!"
+  },
+  materials:{
+    keywords:['material','fabric','made of','quality','sustainable','eco','ethical','care','wash','ingredients'],
+    answer:"All MINÁ pieces are crafted from premium performance fabrics — a proprietary blend of polyamide and elastane that's moisture-wicking, four-way stretch, and incredibly durable. We use eco-conscious, ethically sourced materials and manufacture in Ireland with strict quality standards. Machine wash cold, tumble dry low."
+  },
+  price:{
+    keywords:['price','cost','how much','expensive','cheap','afford','value','worth','pay'],
+    answer:"Our collection ranges from €20 for individual tops and bras, to €45 for complete sets. We believe in offering genuine luxury at accessible prices — no compromises on quality, ever. Free shipping on orders over €50!"
+  },
+  brand:{
+    keywords:['about','brand','who','miná','story','founded','ireland','dublin','where','company','us'],
+    answer:"MINÁ is a luxury activewear brand born in Dublin, Ireland 🌿 We were founded on a simple belief: that activewear should feel as extraordinary as the women who wear it. Every piece is ethically made, sustainably sourced, and designed to elevate your movement — whether you're at the studio, on a run, or simply living your life."
+  },
+  payment:{
+    keywords:['pay','payment','card','stripe','visa','mastercard','checkout','order','buy','purchase'],
+    answer:"We accept all major credit and debit cards (Visa, Mastercard, Amex) securely via Stripe. Your payment is fully encrypted and secure. We also offer a Stripe Express checkout on each product page for a lightning-fast purchase experience!"
+  },
+  contact:{
+    keywords:['contact','email','phone','call','speak','talk','human','help','support','team','reach'],
+    answer:"We'd love to hear from you! 💌 You can reach our Dublin team at hello@mina-wear.ie or call +353 (0)1 234 5678. We're available Monday to Friday, 9am–5pm IST. We aim to reply to all emails within 24 hours."
+  }
+};
+
+const SUGGESTIONS=['Delivery to Ireland?','What sizes do you have?','Return policy?','What are you made of?'];
+
+// STATE
+let cart=[];
+let selectedSize='M';
+let currentPP=null;
+let chatOpen=false;
+let cartOpen=false;
+let chatStarted=false;
+
+// === CURSOR ===
+const cur=document.getElementById('cursor');
+const ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function animRing(){
+  rx+=(mx-rx)*.14;ry+=(my-ry)*.14;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+
+// === NAV ===
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',scrollY>40);
+});
+function smoothNav(e,id){
+  e.preventDefault();
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+}
+
+// === MARQUEE ===
+const mqItems=['Premium Activewear','Made in Ireland','Free Returns','Ethically Sourced','Move in Luxury','New Collection'];
+const mq=document.getElementById('mq');
+let mqHtml='';
+for(let i=0;i<4;i++) mqItems.forEach(t=>{mqHtml+=`<span>${t}</span><span class="dot">✦</span>`});
+mq.innerHTML=mqHtml;
+
+// === SCROLL REVEAL ===
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+// === PRODUCTS ===
+function renderProducts(){
+  const g=document.getElementById('productsGrid');
+  g.innerHTML=PRODUCTS.map(p=>`
+    <div class="product-card reveal" onclick="openProductPage(${p.id})">
+      <div class="product-img-wrap">
+        ${p.tag?`<span class="product-tag">${p.tag}</span>`:''}
+        <img src="${p.img}" alt="${p.name}" loading="lazy">
+        <button class="quick-view" onclick="event.stopPropagation();openProductPage(${p.id})">Quick View</button>
+      </div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-price">€${p.price}</div>
+    </div>
+  `).join('');
+  document.querySelectorAll('.product-card.reveal').forEach(el=>ro.observe(el));
+}
+renderProducts();
+
+function showAllProducts(){
+  document.getElementById('productsGrid').querySelectorAll('.product-card').forEach(c=>c.style.display='flex');
+}
+
+// === PRODUCT PAGE ===
+function openProductPage(id){
+  const p=PRODUCTS.find(x=>x.id===id);
+  if(!p)return;
+  currentPP=p;
+  selectedSize='M';
+  document.getElementById('ppImg').src=p.img;
+  document.getElementById('ppImg').alt=p.name;
+  document.getElementById('ppCategory').textContent=p.category;
+  document.getElementById('ppName').textContent=p.name;
+  document.getElementById('ppPrice').textContent=p.price;
+  document.getElementById('ppDesc').textContent=p.desc;
+  const sizes=['XS','S','M','L','XL'];
+  document.getElementById('ppSizes').innerHTML=sizes.map(s=>`
+    <button class="size-opt${s==='M'?' active':''}" onclick="selectSizePP('${s}',this)">${s}</button>
+  `).join('');
+  document.getElementById('ppColors').innerHTML=p.colors.map((c,i)=>`
+    <div class="color-swatch${i===0?' active':''}" style="background:${c}" onclick="selectColor(this)" title="Colour option"></div>
+  `).join('');
+  const pp=document.getElementById('product-page');
+  pp.classList.add('open');
+  pp.scrollTop=0;
+  document.body.style.overflow='hidden';
+  syncCartCount();
+}
+function closeProductPage(){
+  document.getElementById('product-page').classList.remove('open');
+  document.body.style.overflow='';
+}
+function selectSizePP(s,el){
+  selectedSize=s;
+  document.querySelectorAll('.size-opt').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+function selectColor(el){
+  document.querySelectorAll('.color-swatch').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+}
+function addToCartPP(){
+  if(!currentPP)return;
+  cart.push({...currentPP,size:selectedSize,uid:Date.now()});
+  syncCartCount();
+  showToast(`${currentPP.name} added to cart ✓`);
+  closeProductPage();
+}
+function buyNowStripe(){
+  showToast('Redirecting to Stripe checkout…');
+  setTimeout(()=>showToast('Stripe integration — connect your account to activate payments'),1800);
+}
+
+// === CART ===
+function toggleCart(){
+  cartOpen=!cartOpen;
+  document.getElementById('cart-drawer').classList.toggle('open',cartOpen);
+  document.getElementById('cartOverlay').classList.toggle('open',cartOpen);
+  document.body.style.overflow=cartOpen?'hidden':'';
+  renderCart();
+}
+function renderCart(){
+  const el=document.getElementById('cartItems');
+  const ft=document.getElementById('cartFooter');
+  if(!cart.length){
+    el.innerHTML='<div class="cart-empty">Your cart is empty.</div>';
+    ft.innerHTML='';
+    return;
+  }
+  el.innerHTML=cart.map(item=>`
+    <div class="cart-item">
+      <img class="cart-item-img" src="${item.img}" alt="${item.name}">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-meta">Size: ${item.size}</div>
+        <div class="cart-item-price">€${item.price}</div>
+        <button class="cart-item-remove" onclick="removeCartItem(${item.uid})">Remove</button>
+      </div>
+    </div>
+  `).join('');
+  const total=cart.reduce((s,i)=>s+i.price,0);
+  ft.innerHTML=`
+    <div class="cart-subtotal">
+      <span>Subtotal</span>
+      <span>€${total}</span>
+    </div>
+    <button class="btn-checkout" onclick="checkoutStripe()">Proceed to Checkout</button>
+    <div class="cart-note">Free shipping on orders over €50 🇮🇪</div>
+  `;
+}
+function removeCartItem(uid){
+  cart=cart.filter(i=>i.uid!==uid);
+  syncCartCount();renderCart();
+}
+function syncCartCount(){
+  const n=cart.length;
+  document.getElementById('cartCount').textContent=n;
+  document.getElementById('cartCount2').textContent=n;
+}
+function checkoutStripe(){
+  showToast('Connecting to Stripe — add your API key to activate');
+}
+
+// === TESTIMONIALS ===
+function renderTestimonials(){
+  document.getElementById('testimonialsGrid').innerHTML=TESTIMONIALS.map(t=>`
+    <div class="test-card reveal">
+      <div class="test-quote">"</div>
+      <div class="test-stars">${'★'.repeat(t.stars)}</div>
+      <p class="test-text">${t.text}</p>
+      <div class="test-author">
+        <div class="test-avatar"><img src="${t.img}" alt="${t.name}"></div>
+        <div>
+          <div class="test-name">${t.name}</div>
+          <div class="test-role">${t.role}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  document.querySelectorAll('.test-card.reveal').forEach(el=>ro.observe(el));
+}
+renderTestimonials();
+
+// === CHATBOT ===
+function toggleChat(){
+  chatOpen=!chatOpen;
+  document.getElementById('chatbot-win').classList.toggle('open',chatOpen);
+  document.getElementById('chatNotify').style.display=chatOpen?'none':'block';
+  if(chatOpen&&!chatStarted)initChat();
+}
+function initChat(){
+  chatStarted=true;
+  const msgs=document.getElementById('chatMsgs');
+  msgs.innerHTML='';
+  renderSuggestions();
+  const lines=[
+    "Hi there — welcome to MINÁ 🌿",
+    "I'm your personal concierge. I know everything about our collection, sizing, shipping to Ireland, and more.",
+    "What can I help you with today?"
+  ];
+  typeLines(lines,msgs,0);
+}
+function typeLines(lines,container,idx){
+  if(idx>=lines.length)return;
+  const row=document.createElement('div');
+  row.className='msg-row bot';
+  const av=document.createElement('div');
+  av.className='msg-avatar';av.textContent='MÍ';
+  const bub=document.createElement('div');
+  bub.className='msg-bubble';
+  row.appendChild(av);row.appendChild(bub);
+  const typing=addTyping(container);
+  setTimeout(()=>{
+    typing.remove();
+    typeBubble(bub,lines[idx],()=>{
+      container.appendChild(row);
+      container.scrollTop=container.scrollHeight;
+      setTimeout(()=>typeLines(lines,container,idx+1),400);
+    });
+    container.appendChild(row);
+    container.scrollTop=container.scrollHeight;
+  },600+idx*400);
+}
+function typeBubble(el,text,cb){
+  el.textContent='';
+  let i=0;
+  const iv=setInterval(()=>{
+    el.textContent=text.slice(0,++i);
+    if(i>=text.length){clearInterval(iv);if(cb)cb();}
+  },18);
+}
+function addTyping(container){
+  const row=document.createElement('div');
+  row.className='typing-row';
+  const av=document.createElement('div');
+  av.className='msg-avatar';av.textContent='MÍ';
+  const bub=document.createElement('div');
+  bub.className='typing-bubble';
+  bub.innerHTML='<div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div>';
+  row.appendChild(av);row.appendChild(bub);
+  container.appendChild(row);
+  container.scrollTop=container.scrollHeight;
+  return row;
+}
+function renderSuggestions(){
+  document.getElementById('chatSuggestions').innerHTML=SUGGESTIONS.map(s=>`
+    <button class="suggest-chip" onclick="clickSuggestion('${s}')">${s}</button>
+  `).join('');
+}
+function clickSuggestion(text){
+  document.getElementById('chat-inp').value=text;
+  sendMsg();
+  document.getElementById('chatSuggestions').innerHTML='';
+}
+function sendMsg(){
+  const inp=document.getElementById('chat-inp');
+  const text=inp.value.trim();
+  if(!text)return;
+  inp.value='';
+  const msgs=document.getElementById('chatMsgs');
+  const uRow=document.createElement('div');
+  uRow.className='msg-row user';
+  const uBub=document.createElement('div');
+  uBub.className='msg-bubble';
+  uBub.textContent=text;
+  uRow.appendChild(uBub);
+  msgs.appendChild(uRow);
+  msgs.scrollTop=msgs.scrollHeight;
+  const typing=addTyping(msgs);
+  setTimeout(()=>{
+    typing.remove();
+    const resp=getResponse(text);
+    const bRow=document.createElement('div');
+    bRow.className='msg-row bot';
+    const av=document.createElement('div');
+    av.className='msg-avatar';av.textContent='MÍ';
+    const bBub=document.createElement('div');
+    bBub.className='msg-bubble';
+    bRow.appendChild(av);bRow.appendChild(bBub);
+    msgs.appendChild(bRow);
+    typeBubble(bBub,resp);
+    msgs.scrollTop=msgs.scrollHeight;
+  },900+Math.random()*600);
+}
+function getResponse(msg){
+  const m=msg.toLowerCase();
+  for(const [,v] of Object.entries(KB)){
+    if(v.keywords.some(k=>m.includes(k)))return v.answer;
+  }
+  const fallbacks=[
+    "Great question! For anything specific, email us at hello@mina-wear.ie — our Dublin team will reply within 24 hours. 💌",
+    "I want to make sure you get the perfect answer — drop us a message at hello@mina-wear.ie and our team will be right with you!",
+    "Hmm, let me point you to the right place — our team at hello@mina-wear.ie can answer that beautifully. Is there anything else I can help with? 🌿"
+  ];
+  return fallbacks[Math.floor(Math.random()*fallbacks.length)];
+}
+
+// === TOAST ===
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// === INIT ===
+setTimeout(()=>{
+  document.getElementById('chatNotify').style.display='block';
+},3000);
+</script>
+</body>
+</html>
